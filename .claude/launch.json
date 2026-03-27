@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "37obrmp",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "name": "bpg-dev",
+      "runtimeExecutable": "/tmp/bpg-dev.sh",
+      "runtimeArgs": [],
       "port": 3050
     }
   ]

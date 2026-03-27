@@ -113,6 +113,20 @@ const partnerSections = [
   },
 ];
 
+function getMonogram(name: string) {
+  const words = name.replace(/[&]/g, "").split(/\s+/).filter(w => w.length > 1 && w[0] === w[0].toUpperCase());
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
+
+const monogramColors = [
+  "from-primary/80 to-primary",
+  "from-accent/80 to-accent",
+  "from-primary/60 to-accent/80",
+  "from-[#2d4a7a] to-primary",
+  "from-accent to-primary/70",
+];
+
 export default function Partners() {
   return (
     <>
@@ -150,12 +164,17 @@ export default function Partners() {
               <div className="mt-4 w-16 h-0.5 bg-accent" />
             </ScrollReveal>
 
-            <div className="mt-12 flex flex-wrap gap-3">
+            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {section.items.map((item, i) => (
-                <ScrollReveal key={item} delay={i * 40} direction="up">
-                  <span className="inline-block rounded-2xl border border-border/60 bg-white px-5 py-3 text-sm text-muted hover:border-primary/30 hover:text-foreground hover:shadow-md hover:shadow-primary/5 transition-all duration-300 cursor-default">
-                    {item}
-                  </span>
+                <ScrollReveal key={item} delay={i * 50} direction="up">
+                  <div className="group flex flex-col items-center gap-3 rounded-2xl border border-border/60 bg-white p-5 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 cursor-default h-full">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${monogramColors[i % monogramColors.length]} flex items-center justify-center text-white font-bold text-sm tracking-wide shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                      {getMonogram(item)}
+                    </div>
+                    <span className="text-xs text-center text-muted leading-snug font-medium group-hover:text-foreground transition-colors">
+                      {item}
+                    </span>
+                  </div>
                 </ScrollReveal>
               ))}
             </div>
@@ -221,26 +240,48 @@ export default function Partners() {
         </div>
       </section>
 
-      {/* Trust Band */}
-      <section className="py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      {/* Trust Band — network stats + quote */}
+      <section className="relative py-24 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-section-alt to-white" />
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <ScrollReveal>
-            <div className="text-center max-w-3xl mx-auto">
-              <AnimatedIcon
-                icon={HandshakeIcon}
-                size={40}
-                className="text-accent mx-auto"
-              />
-              <h2 className="mt-6 text-2xl lg:text-3xl font-bold text-foreground tracking-tight">
-                Built on Trust, Proven by Performance
-              </h2>
-              <div className="mt-4 w-16 h-0.5 bg-accent mx-auto" />
-              <p className="mt-6 text-muted leading-relaxed">
-                Every partnership in our network has been earned through
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-16">
+              {[
+                { value: "60+", label: "Partner Companies" },
+                { value: "20+", label: "Countries" },
+                { value: "4", label: "Partner Categories" },
+                { value: "15+", label: "Years of Collaboration" },
+              ].map((stat, i) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-4xl lg:text-5xl font-black text-primary tracking-tight">
+                    {stat.value}
+                  </div>
+                  <div className="mt-2 text-xs font-semibold text-muted uppercase tracking-[0.15em]">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={200}>
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="w-12 h-0.5 bg-accent mx-auto mb-8" />
+              <blockquote className="text-xl lg:text-2xl font-light text-foreground/80 italic leading-relaxed">
+                &ldquo;Every partnership in our network has been earned through
                 consistent execution, transparent communication, and a shared
-                commitment to operational excellence across global dry bulk
-                markets.
-              </p>
+                commitment to operational excellence.&rdquo;
+              </blockquote>
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <AnimatedIcon
+                  icon={HandshakeIcon}
+                  size={20}
+                  className="text-accent"
+                />
+                <span className="text-sm font-semibold text-muted uppercase tracking-[0.15em]">
+                  Built on Trust
+                </span>
+              </div>
             </div>
           </ScrollReveal>
         </div>

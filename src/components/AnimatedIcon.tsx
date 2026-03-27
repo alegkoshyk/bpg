@@ -44,10 +44,10 @@ export default function AnimatedIcon({
   return (
     <div
       ref={ref}
-      className={className}
+      className={`w-fit ${className}`}
       style={{
         opacity: isVisible ? 1 : 0,
-        transition: `opacity 500ms ease ${delay}ms`,
+        transition: `opacity 800ms ease ${delay}ms`,
       }}
     >
       <Icon
@@ -57,7 +57,7 @@ export default function AnimatedIcon({
         style={{
           strokeDasharray: 100,
           strokeDashoffset: isVisible ? 0 : 100,
-          transition: `stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1) ${delay + 200}ms`,
+          transition: `stroke-dashoffset 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) ${delay + 300}ms`,
         }}
       />
     </div>

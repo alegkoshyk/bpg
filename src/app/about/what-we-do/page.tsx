@@ -349,7 +349,7 @@ export default function WhatWeDo() {
         </div>
       </section>
 
-      {/* Closing Image */}
+      {/* Closing Image — blends from Business Philosophy (bg-primary) into Footer (bg-primary-dark) */}
       <section className="relative h-48 lg:h-64 overflow-hidden">
         <Image
           src="/images/17.jpg"
@@ -357,7 +357,7 @@ export default function WhatWeDo() {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/60 to-[#1c182e]" />
       </section>
     </>
   );

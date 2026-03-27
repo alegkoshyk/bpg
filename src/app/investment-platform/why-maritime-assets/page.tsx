@@ -3,6 +3,7 @@
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
 import AnimatedIcon from "@/components/AnimatedIcon";
+import Image from "next/image";
 import {
   Globe,
   Ship,
@@ -42,26 +43,54 @@ export default function WhyMaritimeAssets() {
         image="/images/5.jpg"
       />
 
-      {/* 90% Stat */}
-      <section className="py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <ScrollReveal>
-            <div className="text-center">
-              <AnimatedIcon
-                icon={Globe}
-                className="mx-auto text-accent mb-6"
-                size={40}
-              />
-              <div className="text-7xl lg:text-9xl font-bold text-primary tracking-tight">
-                90%
-              </div>
-              <div className="mt-4 w-16 h-0.5 bg-accent mx-auto" />
-              <p className="mt-6 text-lg text-muted max-w-xl mx-auto leading-relaxed">
-                of global trade moves by sea. Energy, food, steel,
-                infrastructure &mdash; none of it moves without ships.
-              </p>
+      {/* 90% Stat — immersive split */}
+      <section className="relative overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[480px]">
+          {/* Left: Photo */}
+          <div className="relative h-64 lg:h-auto">
+            <Image
+              src="/images/17.jpg"
+              alt="Global shipping routes"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-primary/40" />
+          </div>
+          {/* Right: Content */}
+          <div className="bg-primary flex items-center">
+            <div className="px-10 lg:px-16 py-16 lg:py-24">
+              <ScrollReveal>
+                <AnimatedIcon
+                  icon={Globe}
+                  className="text-accent mb-6"
+                  size={32}
+                />
+                <div className="flex items-baseline gap-3">
+                  <span className="text-[80px] lg:text-[120px] font-black text-white leading-none tracking-tighter">
+                    90
+                  </span>
+                  <span className="text-[48px] lg:text-[72px] font-black text-accent leading-none">
+                    %
+                  </span>
+                </div>
+                <div className="mt-3 w-16 h-0.5 bg-accent" />
+                <p className="mt-6 text-lg text-white/70 leading-relaxed max-w-md">
+                  of global trade moves by sea. Energy, food, steel,
+                  infrastructure &mdash; none of it moves without ships.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {["Iron Ore", "Coal", "Grain", "Steel", "Fertilizers"].map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-white/15 px-4 py-1.5 text-xs font-medium text-white/50"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </ScrollReveal>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
 

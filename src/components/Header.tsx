@@ -84,6 +84,18 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -153,7 +165,7 @@ export default function Header() {
             ))}
             <Link
               href="/contact"
-              className="ml-5 rounded-lg bg-accent px-5 py-2.5 text-[13px] font-semibold text-primary-dark hover:bg-accent-light transition-all hover:shadow-lg hover:shadow-accent/20"
+              className="ml-5 rounded-lg bg-accent px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-accent-light transition-all hover:shadow-lg hover:shadow-accent/20"
             >
               Get Started
             </Link>
@@ -180,7 +192,7 @@ export default function Header() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-border/50 max-h-[80vh] overflow-y-auto shadow-xl">
+        <div className="lg:hidden fixed inset-0 top-[72px] bg-white overflow-y-auto z-40">
           <nav className="flex flex-col px-6 py-5 gap-1">
             {navLinks.map((link) => (
               <div key={link.href}>
@@ -210,7 +222,7 @@ export default function Header() {
             <Link
               href="/contact"
               onClick={() => setMobileOpen(false)}
-              className="rounded-lg bg-accent px-5 py-3 text-center text-sm font-semibold text-primary-dark hover:bg-accent-light mt-3"
+              className="rounded-lg bg-accent px-5 py-3 text-center text-sm font-semibold text-white hover:bg-accent-light mt-3"
             >
               Get Started
             </Link>

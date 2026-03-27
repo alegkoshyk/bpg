@@ -77,7 +77,7 @@ export default function Home() {
               <div className="mt-12 flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/investment-platform/swiss-amc"
-                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-primary-dark hover:bg-accent-light transition-all hover:shadow-2xl hover:shadow-accent/20 hover:-translate-y-0.5"
+                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white hover:bg-accent-light transition-all hover:shadow-2xl hover:shadow-accent/20 hover:-translate-y-0.5"
                 >
                   Learn About AMC
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -200,28 +200,27 @@ export default function Home() {
             </ScrollReveal>
 
             <ScrollReveal direction="right" delay={200}>
-              <div className="relative">
-                <div className="rounded-2xl overflow-hidden shadow-2xl shadow-primary/10">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-primary/10">
+                <div className="aspect-[3/4]">
                   <Image
                     src="/images/6.jpg"
                     alt="Crane loading cargo into vessel"
                     width={600}
-                    height={450}
-                    className="w-full h-auto object-cover parallax-photo"
+                    height={800}
+                    className="w-full h-full object-cover"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent" />
                 </div>
-                {/* Floating stat card */}
-                <div className="absolute -bottom-6 -left-6 bg-primary rounded-xl p-6 shadow-2xl text-white">
-                  <div className="flex items-center gap-3">
-                    <AnimatedIcon icon={Globe} color="#4887C7" size={24} />
-                    <div>
-                      <div className="text-2xl font-bold">90%</div>
-                      <div className="text-xs text-white/50">of trade by sea</div>
-                    </div>
+                <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-10">
+                  <AnimatedIcon icon={Globe} color="#4887C7" size={32} className="mb-4" />
+                  <div className="text-[80px] lg:text-[110px] font-black text-white leading-none tracking-tighter">
+                    90%
+                  </div>
+                  <div className="mt-2 w-12 h-0.5 bg-accent" />
+                  <div className="text-sm text-white/60 font-medium mt-3 tracking-wide uppercase">
+                    of global trade moves by sea
                   </div>
                 </div>
-                {/* Decorative */}
-                <div className="absolute -top-4 -right-4 w-24 h-24 border-2 border-accent/20 rounded-2xl -z-10" />
               </div>
             </ScrollReveal>
           </div>
@@ -477,7 +476,7 @@ export default function Home() {
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/investment-platform/swiss-amc"
-                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-primary-dark hover:bg-accent-light transition-all hover:shadow-2xl hover:shadow-accent/20"
+                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white hover:bg-accent-light transition-all hover:shadow-2xl hover:shadow-accent/20"
                 >
                   Explore the AMC
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

@@ -14,9 +14,9 @@ export default function Footer() {
             <Image
               src="/logo/bpg_logo_white.svg"
               alt="BPG Logo"
-              width={100}
-              height={36}
-              className="h-8 w-auto mb-5"
+              width={200}
+              height={72}
+              className="h-16 w-auto mb-5"
             />
             <p className="text-sm text-white/35 leading-relaxed">
               Disciplined, asset-backed investment in dry bulk maritime
@@ -100,7 +100,15 @@ export default function Footer() {
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6">
           <p className="text-xs text-white/20">
             &copy; {new Date().getFullYear()} Bulkers Pool Group AG. All rights
-            reserved.
+            reserved. With inspiration by{" "}
+            <a
+              href="https://redcats.agency"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red-500/70 hover:text-red-400 transition-colors"
+            >
+              redcats
+            </a>
           </p>
           <div className="flex items-center gap-6">
             <Link
