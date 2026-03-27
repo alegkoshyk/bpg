@@ -1,10 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import PageHero from "@/components/PageHero";
+import ScrollReveal from "@/components/ScrollReveal";
+import AnimatedIcon from "@/components/AnimatedIcon";
+import { HelpCircle, ChevronDown, Ship, TrendingUp, BarChart3, Anchor } from "lucide-react";
 
 const faqSections = [
   {
     title: "About the AMC Structure",
+    icon: Ship,
     items: [
       {
         q: "What am I buying?",
@@ -30,6 +35,7 @@ const faqSections = [
   },
   {
     title: "Investment Rationale",
+    icon: TrendingUp,
     items: [
       {
         q: "Why invest in ships / maritime transport?",
@@ -51,6 +57,7 @@ const faqSections = [
   },
   {
     title: "How Can I Invest?",
+    icon: Anchor,
     items: [
       {
         q: "How can I invest in a ship via Direct Investment?",
@@ -64,6 +71,7 @@ const faqSections = [
   },
   {
     title: "Market Monitoring & Performance",
+    icon: BarChart3,
     items: [
       {
         q: "How can investors monitor fleet performance?",
@@ -78,71 +86,139 @@ const faqSections = [
 ];
 
 export default function FAQ() {
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
+
+  const toggleItem = (key: string) => {
+    setOpenItems((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
   return (
     <>
-      <section className="bg-primary py-20 lg:py-28">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <h1 className="text-4xl lg:text-5xl font-bold text-white tracking-tight">
-            Frequently Asked Questions
-          </h1>
-          <p className="mt-4 text-lg text-white/60 max-w-2xl">
-            Everything you need to know about investing in maritime assets
-            through our Swiss AMC structure.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Frequently Asked Questions"
+        subtitle="Everything you need to know about investing in maritime assets through our Swiss AMC structure."
+        breadcrumb="Support"
+        image="/images/faq.jpg"
+      />
 
-      <section className="py-20 lg:py-28">
-        <div className="mx-auto max-w-3xl px-6 lg:px-8">
-          <div className="space-y-16">
-            {faqSections.map((section) => (
-              <div key={section.title}>
-                <h2 className="text-xl font-bold text-foreground mb-6">
-                  {section.title}
-                </h2>
-                <div className="space-y-3">
-                  {section.items.map((item) => (
-                    <FAQItem key={item.q} q={item.q} a={item.a} />
-                  ))}
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-4xl px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <span className="text-xs font-semibold text-accent uppercase tracking-[0.2em]">
+                Knowledge Base
+              </span>
+              <h2 className="mt-4 text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
+                Find Your Answers
+              </h2>
+              <div className="mt-4 w-16 h-0.5 bg-accent mx-auto" />
+              <p className="mt-6 text-muted max-w-2xl mx-auto leading-relaxed">
+                Explore our comprehensive FAQ covering the AMC structure, investment rationale, participation process, and market monitoring.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="space-y-12">
+            {faqSections.map((section, sIdx) => (
+              <ScrollReveal key={section.title} delay={sIdx * 100}>
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                      <AnimatedIcon
+                        icon={section.icon}
+                        size={20}
+                        className="text-accent"
+                        delay={sIdx * 100}
+                      />
+                    </div>
+                    <h2 className="text-lg font-bold text-foreground">
+                      {section.title}
+                    </h2>
+                  </div>
+
+                  <div className="space-y-3">
+                    {section.items.map((item, iIdx) => {
+                      const key = `${sIdx}-${iIdx}`;
+                      const isOpen = openItems[key] || false;
+
+                      return (
+                        <div
+                          key={key}
+                          className="rounded-2xl border border-border/60 bg-white overflow-hidden transition-shadow duration-300 hover:shadow-sm"
+                        >
+                          <button
+                            onClick={() => toggleItem(key)}
+                            className="flex w-full items-center justify-between px-6 py-5 text-left group transition-colors duration-200"
+                          >
+                            <span className="text-sm font-medium text-foreground pr-6 group-hover:text-primary transition-colors duration-200">
+                              {item.q}
+                            </span>
+                            <div
+                              className={`w-8 h-8 rounded-full bg-section-alt flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
+                                isOpen ? "bg-accent/10 rotate-180" : ""
+                              }`}
+                            >
+                              <ChevronDown
+                                size={16}
+                                className={`transition-colors duration-300 ${
+                                  isOpen ? "text-accent" : "text-muted"
+                                }`}
+                              />
+                            </div>
+                          </button>
+                          <div
+                            className="grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                            style={{
+                              gridTemplateRows: isOpen ? "1fr" : "0fr",
+                              opacity: isOpen ? 1 : 0,
+                            }}
+                          >
+                            <div className="overflow-hidden">
+                              <div className="px-6 pb-6">
+                                <div className="w-full h-px bg-border/40 mb-4" />
+                                <p className="text-sm text-muted leading-relaxed">
+                                  {item.a}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
-    </>
-  );
-}
 
-function FAQItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="rounded-xl border border-border overflow-hidden">
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between px-6 py-4 text-left hover:bg-section-alt/50 transition-colors"
-      >
-        <span className="text-sm font-medium text-foreground pr-4">{q}</span>
-        <svg
-          className={`w-4 h-4 text-muted flex-shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
-      {open && (
-        <div className="px-6 pb-4">
-          <p className="text-sm text-muted leading-relaxed">{a}</p>
+      {/* CTA */}
+      <section className="py-24 lg:py-32 bg-section-alt">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center">
+              <AnimatedIcon
+                icon={HelpCircle}
+                size={32}
+                className="text-accent mx-auto mb-6"
+              />
+              <h2 className="text-2xl lg:text-3xl font-bold text-foreground tracking-tight">
+                Still Have Questions?
+              </h2>
+              <p className="mt-4 text-muted max-w-lg mx-auto leading-relaxed">
+                Our team is ready to provide detailed information about the investment structure and opportunities.
+              </p>
+              <a
+                href="/contact"
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-white hover:bg-primary-light transition-colors duration-300"
+              >
+                Contact Us
+              </a>
+            </div>
+          </ScrollReveal>
         </div>
-      )}
-    </div>
+      </section>
+    </>
   );
 }

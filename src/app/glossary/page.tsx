@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Glossary — Bulkers Pool Group",
-  description: "Maritime and investment terminology explained.",
-};
+import { useState, useMemo } from "react";
+import PageHero from "@/components/PageHero";
+import ScrollReveal from "@/components/ScrollReveal";
+import AnimatedIcon from "@/components/AnimatedIcon";
+import { BookOpen, ArrowRight } from "lucide-react";
 
 const glossary = [
   { term: "Annual Survey", meaning: "Mandatory yearly inspection conducted by a classification society on behalf of the flag state." },
@@ -49,33 +50,159 @@ const glossary = [
 ];
 
 export default function Glossary() {
+  const [activeLetter, setActiveLetter] = useState<string | null>(null);
+
+  const alphabet = useMemo(() => {
+    const letters = new Set(glossary.map((item) => item.term[0].toUpperCase()));
+    return Array.from(letters).sort();
+  }, []);
+
+  const grouped = useMemo(() => {
+    const groups: Record<string, typeof glossary> = {};
+    for (const item of glossary) {
+      const letter = item.term[0].toUpperCase();
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(item);
+    }
+    return groups;
+  }, []);
+
+  const scrollToLetter = (letter: string) => {
+    setActiveLetter(letter);
+    const el = document.getElementById(`glossary-${letter}`);
+    if (el) {
+      const offset = 100;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
   return (
     <>
-      <section className="bg-primary py-20 lg:py-28">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <h1 className="text-4xl lg:text-5xl font-bold text-white tracking-tight">
-            Glossary
-          </h1>
-          <p className="mt-4 text-lg text-white/60 max-w-2xl">
-            Maritime and investment terminology explained.
-          </p>
+      <PageHero
+        title="Glossary"
+        subtitle="Maritime and investment terminology explained. A comprehensive reference for industry-specific terms."
+        breadcrumb="Resources"
+        image="/images/5.jpg"
+      />
+
+      <section className="py-24 lg:py-32">
+        <div className="mx-auto max-w-5xl px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <span className="text-xs font-semibold text-accent uppercase tracking-[0.2em]">
+                Reference
+              </span>
+              <h2 className="mt-4 text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
+                Maritime Terminology
+              </h2>
+              <div className="mt-4 w-16 h-0.5 bg-accent mx-auto" />
+              <p className="mt-6 text-muted max-w-2xl mx-auto leading-relaxed">
+                {glossary.length} essential terms covering vessel types, charter structures, market benchmarks, and operational concepts.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Alphabet Quick Jump */}
+          <ScrollReveal delay={100}>
+            <div className="sticky top-20 z-20 mb-12">
+              <div className="rounded-2xl border border-border/60 bg-white/95 backdrop-blur-md p-4 shadow-sm">
+                <div className="flex flex-wrap items-center justify-center gap-1">
+                  {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => {
+                    const hasTerms = alphabet.includes(letter);
+                    return (
+                      <button
+                        key={letter}
+                        onClick={() => hasTerms && scrollToLetter(letter)}
+                        disabled={!hasTerms}
+                        className={`w-9 h-9 rounded-lg text-sm font-medium transition-all duration-200 ${
+                          activeLetter === letter
+                            ? "bg-accent text-white"
+                            : hasTerms
+                            ? "text-foreground hover:bg-accent/10 hover:text-accent"
+                            : "text-muted/30 cursor-default"
+                        }`}
+                      >
+                        {letter}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Glossary Terms */}
+          <div className="space-y-12">
+            {Object.entries(grouped).map(([letter, terms], gIdx) => (
+              <ScrollReveal key={letter} delay={gIdx * 30}>
+                <div id={`glossary-${letter}`}>
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center">
+                      <span className="text-xl font-bold text-accent">
+                        {letter}
+                      </span>
+                    </div>
+                    <div className="flex-1 h-px bg-border/40" />
+                  </div>
+
+                  <div className="grid gap-3">
+                    {terms.map((item) => (
+                      <div
+                        key={item.term}
+                        className="group rounded-2xl border border-border/60 bg-white px-6 py-5 hover:border-accent/30 hover:shadow-sm transition-all duration-300"
+                      >
+                        <div className="flex flex-col md:flex-row md:items-start gap-2 md:gap-6">
+                          <dt className="text-sm font-semibold text-foreground md:w-56 md:flex-shrink-0 group-hover:text-accent transition-colors duration-200">
+                            {item.term}
+                          </dt>
+                          <dd className="text-sm text-muted leading-relaxed">
+                            {item.meaning}
+                          </dd>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="py-20 lg:py-28">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8">
-          <div className="divide-y divide-border">
-            {glossary.map((item) => (
-              <div key={item.term} className="py-5 grid grid-cols-1 md:grid-cols-[220px_1fr] gap-2 md:gap-8">
-                <dt className="text-sm font-semibold text-foreground">
-                  {item.term}
-                </dt>
-                <dd className="text-sm text-muted leading-relaxed">
-                  {item.meaning}
-                </dd>
+      {/* Back to top */}
+      <section className="py-24 lg:py-32 bg-section-alt">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center">
+              <AnimatedIcon
+                icon={BookOpen}
+                size={32}
+                className="text-accent mx-auto mb-6"
+              />
+              <h2 className="text-2xl lg:text-3xl font-bold text-foreground tracking-tight">
+                Need More Information?
+              </h2>
+              <p className="mt-4 text-muted max-w-lg mx-auto leading-relaxed">
+                Explore our FAQ or contact our team for detailed explanations of maritime investment concepts.
+              </p>
+              <div className="mt-8 flex items-center justify-center gap-4 flex-wrap">
+                <a
+                  href="/faq"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-white hover:bg-primary-light transition-colors duration-300"
+                >
+                  View FAQ
+                  <ArrowRight size={16} />
+                </a>
+                <a
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-8 py-3.5 text-sm font-semibold text-foreground hover:bg-white transition-colors duration-300"
+                >
+                  Contact Us
+                </a>
               </div>
-            ))}
-          </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </>
