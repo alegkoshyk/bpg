@@ -12,11 +12,11 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Image
-              src="/logo/bpg_logo.svg"
+              src="/logo/bpg_logo_white.svg"
               alt="BPG Logo"
               width={100}
               height={36}
-              className="h-8 w-auto brightness-0 invert mb-5"
+              className="h-8 w-auto mb-5"
             />
             <p className="text-sm text-white/35 leading-relaxed">
               Disciplined, asset-backed investment in dry bulk maritime
