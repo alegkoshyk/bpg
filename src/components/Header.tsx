@@ -103,7 +103,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-500 ${
         showSolid
           ? "bg-white/95 backdrop-blur-xl shadow-sm shadow-black/5 border-b border-border/50"
           : "bg-transparent"
@@ -197,7 +197,7 @@ export default function Header() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 top-[72px] bg-white overflow-y-auto z-40">
+        <div className="lg:hidden absolute left-0 right-0 top-full bg-white overflow-y-auto shadow-2xl" style={{ height: "calc(100vh - 80px)" }}>
           <nav className="flex flex-col px-6 py-5 gap-1">
             {navLinks.map((link) => (
               <div key={link.href}>
