@@ -117,7 +117,7 @@ export default function Header() {
               alt="BPG Logo"
               width={120}
               height={40}
-              className="h-9 w-auto transition-all duration-500"
+              className="h-12 w-auto transition-all duration-500"
               priority
             />
           </Link>
