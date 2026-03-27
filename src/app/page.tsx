@@ -38,9 +38,9 @@ export default function Home() {
         {/* Particle animation */}
         <HeroBackground />
         {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#1C182E] to-transparent z-[2]" />
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#1C182E] to-transparent z-[3]" />
 
-        <div className="relative z-[3] mx-auto max-w-7xl px-6 lg:px-8 py-32 lg:py-0 w-full">
+        <div className="relative z-[4] mx-auto max-w-7xl px-6 lg:px-8 py-32 lg:py-0 w-full">
           <div className="max-w-3xl">
             <ScrollReveal delay={100} direction="none">
               <div className="inline-flex items-center gap-2.5 rounded-full glass-card px-5 py-2 text-xs font-medium text-accent tracking-wider uppercase mb-10">

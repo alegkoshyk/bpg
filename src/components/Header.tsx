@@ -55,10 +55,9 @@ function DropdownMenu({
   return (
     <div
       ref={ref}
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-60 rounded-xl border border-border/80 bg-white shadow-xl shadow-black/5 py-2 z-50"
-      style={{ animation: "fadeInDown 200ms ease" }}
+      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-60 rounded-xl border border-border/80 bg-white shadow-xl shadow-black/5 py-2 z-50 animate-dropdown"
     >
-      <style>{`@keyframes fadeInDown { from { opacity: 0; transform: translate(-50%, -8px); } to { opacity: 1; transform: translate(-50%, 0); } }`}</style>
+      <style>{`@keyframes dropdownIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } } .animate-dropdown { animation: dropdownIn 200ms ease forwards; }`}</style>
       {items.map((item) => (
         <Link
           key={item.href}
@@ -77,12 +76,18 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [isHeroPage, setIsHeroPage] = useState(false);
 
   useEffect(() => {
+    // Detect if current page has a dark hero (home page)
+    setIsHeroPage(window.location.pathname === "/");
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // On non-hero pages, always show solid header
+  const showSolid = scrolled || !isHeroPage;
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -99,7 +104,7 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
+        showSolid
           ? "bg-white/95 backdrop-blur-xl shadow-sm shadow-black/5 border-b border-border/50"
           : "bg-transparent"
       }`}
@@ -108,7 +113,7 @@ export default function Header() {
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 relative z-10">
             <Image
-              src={scrolled ? "/logo/bpg_logo.svg" : "/logo/bpg_logo_white.svg"}
+              src={showSolid ? "/logo/bpg_logo.svg" : "/logo/bpg_logo_white.svg"}
               alt="BPG Logo"
               width={120}
               height={40}
@@ -128,7 +133,7 @@ export default function Header() {
                         setOpenDropdown(openDropdown === link.href ? null : link.href)
                       }
                       className={`flex items-center gap-1 px-3.5 py-2 text-[13px] font-medium transition-colors rounded-lg ${
-                        scrolled
+                        showSolid
                           ? "text-foreground/60 hover:text-primary hover:bg-section-alt/60"
                           : "text-white/70 hover:text-white hover:bg-white/5"
                       }`}
@@ -153,7 +158,7 @@ export default function Header() {
                   <Link
                     href={link.href}
                     className={`px-3.5 py-2 text-[13px] font-medium transition-colors rounded-lg ${
-                      scrolled
+                      showSolid
                         ? "text-foreground/60 hover:text-primary hover:bg-section-alt/60"
                         : "text-white/70 hover:text-white hover:bg-white/5"
                     }`}
@@ -175,7 +180,7 @@ export default function Header() {
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className={`lg:hidden p-2 rounded-lg transition-colors ${
-              scrolled ? "text-foreground" : "text-white"
+              showSolid ? "text-foreground" : "text-white"
             }`}
             aria-label="Toggle menu"
           >
